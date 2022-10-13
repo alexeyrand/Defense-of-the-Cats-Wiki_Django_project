@@ -2,15 +2,35 @@
 
 {% block content %}
 
+<p class="link-read-coll">
+{% for cc in colls %}
+
+    <a href="{{ cc.get_absolute_url }}">{{cc.name}}</a>
+
+{% endfor %}
+</p>
+
 
 <ul class="list-articles">
     {% for p in posts %}
     <li>
-        <h2>{{p.title}}</h2>
-        <h2>{{p.name}}</h2>
+
+      {% if p.photo %}
+        <img class="img-article-left thumb" src="{{p.photo.url}}">
+      {% endif %}
+
+      <h2>{{p.rename}}</h2>
+
+      <div class = 'article-panel'>
+        {{p.coll}}
+
         <p>{{p.content}}</p>
         <div class="clear"></div>
-        <p class="link-read-post"><a href="#">Подробнее</a></p>
+        <p class="link-read-post"><a href="{{ p.get_absolute_url }}">Подробнее</a></p>
+          </div>
+
+
+
 
     </li>
     {% endfor %}

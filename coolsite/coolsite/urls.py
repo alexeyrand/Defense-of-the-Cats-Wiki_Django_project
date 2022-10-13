@@ -23,8 +23,7 @@ from hero.views import *
 # СПИСОК МАРШРУТОВ
 urlpatterns = [
     path('admin/', admin.site.urls),
-#    path('', home, name="home"),
-    path('', include("hero.urls"))
+    path('', include("hero.urls")),
 ]
 
 if settings.DEBUG:

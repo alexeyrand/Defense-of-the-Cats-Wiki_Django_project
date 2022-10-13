@@ -31,15 +31,28 @@ img.img-article-left.thumb {
 }
 
 p.link-read-post {
-	text-align: right;
+	text-align: left;
 }
 p.link-read-post a {
 	padding: 10px;
 	min-width: 100px;
-	background: #333671;
-	color: #fff;
+	background: #6495ED;
+	color: #000;
 	text-decoration: none;
 }
+
+p.link-read-coll {
+	text-align: center;
+}
+p.link-read-coll a {
+	padding: 20px;
+	min-width: 200px;
+	background: #6495ED;
+	color: #000;
+	text-decoration: none;
+}
+
+
 
 div.article-panel {
     background: #eee;
