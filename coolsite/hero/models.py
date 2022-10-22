@@ -3,13 +3,14 @@ from django.urls import reverse
 
 class Cat(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     content = models.TextField(blank=True, verbose_name='Описание')
     stats = models.TextField(blank=True, verbose_name='Статы')
     photo = models.ImageField(upload_to="photos/cats/", verbose_name='Фото')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
-    coll = models.ForeignKey('Collection', on_delete = models.PROTECT, null = True, verbose_name='Коллекция')
+    coll = models.ForeignKey('Collection', on_delete = models.PROTECT, null = True, verbose_name='Коллекция', related_name='get_cats')
 
     class Meta:
         verbose_name = 'Коты'
@@ -20,16 +21,13 @@ class Cat(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('cat', kwargs = {'catname': self.name})
+        return reverse('cat', kwargs = {'catname': self.slug})
 
-    def rename(self):
-        if "_" in self.name:
-            return self.name.replace("_", " ")
-        else:
-            return self.name
+
 
 class Collection(models.Model):
     name = models.CharField(max_length=255, db_index = True, verbose_name="Коллекция")
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
     content = models.TextField(blank=True)
     photo = models.ImageField(upload_to="photos/")
 
@@ -42,4 +40,5 @@ class Collection(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('coll', kwargs = {'coll': self.pk})
+        print(self.name)
+        return reverse('coll', kwargs = {'collname': self.slug})

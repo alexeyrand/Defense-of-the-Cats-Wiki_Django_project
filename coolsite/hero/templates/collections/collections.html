@@ -1,15 +1,7 @@
 {% extends 'base.html' %}
+{% load hero_tags %}
 
 {% block content %}
-
-
-
-
-
-
-
-
-
 
 <ul class="list-articles">
     {% for p in colls %}
@@ -19,11 +11,15 @@
         <h3>{{p.name}}</h3>
         <div class="clear"></div>
               {{p.content}}
+          <p class="link-read-post"><a href="{{ p.get_absolute_url }}">Подробнее</a></p>
       </div>
+
       <p>
       {% if p.photo %}
         <img src="{{p.photo.url}}">
       {% endif %}
+      <hr>
+
 
       <p>
     </li>

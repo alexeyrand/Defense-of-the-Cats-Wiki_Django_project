@@ -1,0 +1,12 @@
+{% for m in left_menu %}
+
+  {% if  m.title != 'Все коты' %}
+    <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+  {% else  %}
+      <li><a href="{% url m.url_name 'all_cats' %}">{{ m.title }}</a></li>
+  {% endif %}
+
+
+
+
+{% endfor %}

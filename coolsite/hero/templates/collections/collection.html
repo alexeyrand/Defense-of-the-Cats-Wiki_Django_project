@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+  <h1>Коллекция: "{{ coll.name }}"</h1>
+  <img class="img-article-right thumb" src="{{coll.photo.url}}">
+  <h3>О коллекции:"{{ coll.content }}"</h3>
+
+  <hr>
+  <h1>Коты в коллекции:</h1>
+
+
+
+  <table class="iksweb">
+
+
+        {% for cat in cats %}
+        		<tr>
+          {% if cat.photo %}
+            <td><img src="{{cat.photo.url}}"> </td>
+          {% endif %}
+          <td>{{cat.name}}</td>
+      		</tr>
+        {% endfor %}
+
+  </table>
+
+
+{% endblock %}

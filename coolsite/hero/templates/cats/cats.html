@@ -3,26 +3,27 @@
 {% block content %}
 
 <p class="link-read-coll">
+<a href="{% url 'cats' 'all_cats' %}">Все коты</a>
 {% for cc in colls %}
 
-    <a href="{{ cc.get_absolute_url }}">{{cc.name}}</a>
+    <a href="{% url 'cats' cc.slug %}">{{cc.name}}</a>
 
 {% endfor %}
 </p>
 
 
 <ul class="list-articles">
-    {% for p in posts %}
+    {% for p in cats %}
     <li>
 
       {% if p.photo %}
         <img class="img-article-left thumb" src="{{p.photo.url}}">
       {% endif %}
 
-      <h2>{{p.rename}}</h2>
+      <h2>{{p.name}}</h2>
 
       <div class = 'article-panel'>
-        {{p.coll}}
+        {{p.coll.name}}
 
         <p>{{p.content}}</p>
         <div class="clear"></div>
