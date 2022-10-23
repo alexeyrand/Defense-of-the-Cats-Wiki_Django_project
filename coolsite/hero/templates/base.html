@@ -19,6 +19,11 @@
 			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
 
 {% show_top_menu_home %}
+{% if user.is_authenticated %}
+  <li class='last'> {{user.username}} | <a href="{% url 'logout' %}">Выйти</a></li>
+{% else %}
+  <li class="last"><a href="{% url 'login' %}">Войти</a> | <a href="{% url 'register' %}">Регистрация</a></li>
+{% endif %}
 
 			</ul>
 			<div class="clear"></div>
@@ -51,6 +56,16 @@
 	<div class="content-text">
 {% block content %}
 {% endblock %}
+
+<nav class="list-pages">
+  <ul>
+    {% for p in paginator.page_range %}
+      <li class="page-num">
+        <a href="?page={{ p }}">{{ p }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
 	</div>
 <!-- Конец блока контента -->
 

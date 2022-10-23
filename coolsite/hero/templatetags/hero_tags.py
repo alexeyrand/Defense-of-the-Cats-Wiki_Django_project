@@ -9,15 +9,15 @@ def get_collections():
     return Collection.objects.all()
 
 
-@register.inclusion_tag('tags/top_menu_home.html')
-def show_top_menu_home():
+@register.inclusion_tag('tags/top_menu_home.html', takes_context=True)
+def show_top_menu_home(context):
     top_menu = [{'title': "О сайте", 'url_name': 'about'},
                  {'title': "Форум", 'url_name': 'forum'},
-                 {'title': "Добавить кота", 'url_name': 'addpost'},                 
+                 {'title': "Добавить кота", 'url_name': 'addpost'},
                  {'title': "Обратная связь", 'url_name': 'contact'},
                  {'title': "Войти", 'url_name': 'login'}
                 ]
-    return {'top_menu': top_menu}
+    return {'top_menu': top_menu, "context": context}
 
 @register.inclusion_tag('tags/left_menu_home.html')
 def show_left_menu_home():

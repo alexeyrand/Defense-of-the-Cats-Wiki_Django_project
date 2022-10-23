@@ -3,14 +3,20 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
 from django.views.generic import ListView, TemplateView, DetailView, CreateView
-
+from django.core.paginator import Paginator
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout
 from django.views.generic.detail import BaseDetailView
+from django.urls import reverse_lazy
 
 class HeroHome(TemplateView):
 #    model = Collection
     template_name = 'home/home.html'
 
+
 class Collections(ListView):
+    paginate_by = 5
     model = Collection
     template_name = 'collections/collections.html'
     context_object_name = 'colls'
@@ -20,6 +26,7 @@ class Collections(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Все коллекции'
         return context
+
 
 class Collection_post(DetailView):
     model = Collection
@@ -34,7 +41,9 @@ class Collection_post(DetailView):
         context['cats'] = catscoll
         return context
 
+
 class Cats(ListView):
+    paginate_by = 5
     showname = 'all_cats'
     model = Cat
     template_name = 'cats/cats.html'
@@ -53,6 +62,7 @@ class Cats(ListView):
         else:
             return Cat.objects.filter(coll__slug=self.kwargs['showcats'],   is_published=True)
 
+
 class Cat_post(DetailView):
     model = Cat
     template_name = 'cats/cat.html'
@@ -64,6 +74,7 @@ class Cat_post(DetailView):
         context['title'] = context['cat']
         return context
 
+
 class AddCat(CreateView):
     form_class = AddCatForm
     template_name = 'addpost/addcat.html'
@@ -72,6 +83,41 @@ class AddCat(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Добавить кота'
         return context
+
+
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = "user/register.html"
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация'
+        return context
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+class LoginUser(LoginView):
+    form_class = LoginUserForm
+    template_name = 'user/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Авторизация'
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
 
 def about(request):
     return HttpResponse("<h1>О сайте</h1>")
@@ -82,8 +128,7 @@ def forum(request):
 def contact(request):
     return HttpResponse("<h1>contact</h1>")
 
-def login(request):
-    return HttpResponse("<h1>О сайте</h1>")
+
 
 def addpost(request):
     context = {
